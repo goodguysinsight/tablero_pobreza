@@ -103,7 +103,7 @@ body{background:var(--color-bg);color:var(--color-fg);font-family:var(--font-ant
 .pm-tw tbody tr{cursor:pointer}
 .pm-tw tbody tr:hover td{background:var(--color-bg)}
 .pm-tw tr.sel td{background:var(--color-bg);font-weight:600}
-.pm-tw tr.reg td{color:var(--color-fg-muted);font-style:italic;cursor:default}
+.pm-tw tr.reg td{color:var(--color-fg-muted);cursor:default}
 .pm-cal{display:inline-block;padding:0 6px;border-radius:999px;border:1px solid currentColor}
 @container (max-width:44rem){.pm-opt{display:none}}
 .pm-foot{margin:0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.55;max-width:90ch}
@@ -269,7 +269,7 @@ dash.calc('personas_pobres', {
   const root = document.getElementById('pm');
   const $ = (s) => document.getElementById(s);
   const NS = 'http://www.w3.org/2000/svg';
-  const loc = d3.formatLocale({ decimal: ',', thousands: '.', grouping: [3], currency: ['S/ ', ''] });
+  const loc = d3.formatLocale({ decimal: '.', thousands: ',', grouping: [3], currency: ['S/ ', ''] });
   const f1 = loc.format(',.1f');
   const fint = loc.format(',d');
   const fpp = (v) => v == null ? '—' : (v > 0 ? '+' : v < 0 ? '−' : '±') + f1(Math.abs(v));
