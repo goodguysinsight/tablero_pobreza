@@ -32,7 +32,7 @@ El tablero también se abre localmente con doble clic en `index.html` (requiere 
 - Ponderador: `factor07 × mieperho`; diseño muestral con conglomerado (`conglome`) y estrato (`dominio × estrato`).
 - Urbano: estrato 1-5; rural: estrato 6-8.
 - Lima comprende Lima Metropolitana (provincia 1501) y Lima Provincias; Callao se presenta por separado.
-- Calidad de la estimación: CV < 15% confiable; 15%-25% referencial.
+- Calidad de la estimación (criterio INEI): CV mayor a 15% es referencial; en otro caso, confiable.
 - Las cifras nacionales coinciden con las publicadas por el INEI en los 22 años (2004-2025).
 
 Fuente: INEI, ENAHO 2004-2025. Elaboración: Good Guys Insight.
