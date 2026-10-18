@@ -34,4 +34,4 @@ El tablero también se abre localmente con doble clic en `index.html` (requiere 
 - Calidad de la estimación: CV < 15% confiable; 15%-25% referencial.
 - Las cifras nacionales coinciden con las publicadas por el INEI en los 22 años (2004-2025).
 
-Fuente: INEI, ENAHO 2004-2025. Elaboración propia.
+Fuente: INEI, ENAHO 2004-2025. Elaboración: Good Guys Insight.
