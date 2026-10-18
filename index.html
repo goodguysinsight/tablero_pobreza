@@ -82,6 +82,8 @@ body{background:var(--color-bg);color:var(--color-fg);font-family:var(--font-ant
 .pm-chart .pm-strong{fill:var(--color-fg);font-weight:600}
 .pm-dep{cursor:pointer;transition:opacity .15s}
 .pm-labs{pointer-events:none}
+.pm-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:var(--cds-pad-md, 16px);color:var(--color-fg-muted);font-size:var(--cds-font-size-caption);pointer-events:none}
+#pm-rank{min-height:120px}
 .pm-chart text.pm-lab{fill:var(--color-fg);font-weight:500;paint-order:stroke;stroke:var(--color-panel);stroke-width:2.6px;stroke-linejoin:round;letter-spacing:-.01em}
 .pm-chart text.pm-lab .v{font-weight:700}
 .pm-chart text.pm-lab.dim{opacity:.45}
@@ -318,7 +320,7 @@ dash.calc('personas_pobres', {
   const state = () => {
     const p = dash.params();
     const ind = IND[p.ind] ? p.ind : 'pob_total';
-    const anio = Math.min(2025, Math.max(IND[ind].min || 2004, +p.anio || 2025));
+    const anio = Math.min(2025, Math.max(2004, +p.anio || 2025));
     return { anio, ind, dep: p.dep || null };
   };
 
@@ -544,6 +546,7 @@ dash.calc('personas_pobres', {
     const color = colorOf(ind, pal);
     const data = rows.filter((r) => r.anio === anio && r.tipo === 'Departamento' && r[ind] != null).sort((a, b) => b[ind] - a[ind]);
     const nat = rows.find((r) => r.anio === anio && r.ambito === 'Nacional');
+    if (!data.length) return;                        // sin datos: el aviso lo pone redraw
     const W = box.clientWidth, rh = 22, top = 36;
     const H = top + data.length * rh + 4;
     const svg = svgEl('svg', { width: '100%', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Ranking departamental' }, box);
@@ -605,14 +608,14 @@ dash.calc('personas_pobres', {
     const ml = d3.max(yt, (t) => textW(svg, loc.format(',d')(t))) + 8;
     const endLab = (s) => { const p = s.pts[s.pts.length - 1]; return s.name + ' ' + (p ? fnum(ind, p[ind]) : ''); };
     const mr = d3.max(series, (s) => textW(svg, endLab(s), 'pm-strong')) + 12;
-    const x = d3.scaleLinear([a0, 2025], [ml, Math.max(ml + 100, W - mr)]);
+    const x = d3.scaleLinear([2004, 2025], [ml, Math.max(ml + 100, W - mr)]);
     yt.forEach((t) => {
       svgEl('line', { x1: ml, x2: x(2025), y1: y(t), y2: y(t), stroke: 'var(--cds-chart-grid)', 'stroke-width': 1 }, svg);
       const tx = svgEl('text', { x: ml - 6, y: y(t) + 4, 'text-anchor': 'end' }, svg); tx.textContent = loc.format(',d')(t);
     });
     svgEl('line', { x1: ml, x2: x(2025), y1: y(0), y2: y(0), stroke: 'var(--cds-chart-axis)', 'stroke-width': 1 }, svg);
     const step = W < 420 ? 7 : W < 640 ? 3 : 2;
-    d3.range(2025, a0 - 1, a0 > 2004 ? -1 : -step).reverse().forEach((t) => {
+    d3.range(2025, 2003, -step).reverse().forEach((t) => {
       const tx = svgEl('text', { x: x(t), y: H - 6, 'text-anchor': 'middle' }, svg); tx.textContent = t;
     });
     // año seleccionado
@@ -644,7 +647,7 @@ dash.calc('personas_pobres', {
     const yearAt = (ev) => {
       const r = svg.getBoundingClientRect();
       const px = (ev.clientX - r.left) * (W / r.width);
-      return Math.min(2025, Math.max(a0, Math.round(x.invert(px))));
+      return Math.min(2025, Math.max(2004, Math.round(x.invert(px))));
     };
     ov.addEventListener('mousemove', (ev) => {
       const yr = yearAt(ev);
@@ -768,7 +771,8 @@ dash.calc('personas_pobres', {
     d.setAttribute('data-source', src); d.setAttribute('data-field', dfield); d.setAttribute('data-where', wh);
     d.textContent = dval;
     d.className = 'pm-dv' + (good == null ? '' : good ? ' pm-good' : ' pm-bad');
-    s.textContent = dtext;
+    s.textContent = value === '—' ? '' : dtext;
+    if (value === '—') d.textContent = '';
   };
   const mk = (txt, src, field, wh) => {
     const b = document.createElement('b');
@@ -803,6 +807,10 @@ dash.calc('personas_pobres', {
     p.classList.remove('dash-skeleton');
     p.replaceChildren();
     if (!nat) { p.textContent = '—'; return; }
+    if (nat[ind] == null) {
+      p.textContent = `La ${I.label.toLowerCase()} se mide desde ${I.min || 2004}: la línea de vulnerabilidad del INEI está en la ENAHO a partir de ese año. Para ${anio}, elija otro indicador o un año entre ${I.min || 2004} y 2025.`;
+      return;
+    }
     const deps = rows.filter((r) => r.anio === anio && r.tipo === 'Departamento' && r[ind] != null).sort((x, y) => y[ind] - x[ind]);
     const add = (...xs) => xs.forEach((x) => p.append(typeof x === 'string' ? document.createTextNode(x) : x));
     const mkv = (r) => mk(fv(ind, r[ind]), 'pobreza', ind, where(anio, r.ambito));
@@ -868,6 +876,14 @@ dash.calc('personas_pobres', {
       if (!shapes) buildShapes(G.data);
       drawMap(rows, st, pal);
     } else fail($('pm-map'), G.status);
+    // años sin datos para el indicador (vulnerabilidad antes de 2020)
+    const sinDatos = !rows.some((r) => r.anio === st.anio && r.tipo === 'Departamento' && r[st.ind] != null);
+    if (sinDatos) ['pm-map', 'pm-rank'].forEach((id) => {
+      const e = document.createElement('div');
+      e.className = 'pm-empty';
+      e.textContent = `Sin datos de ${IND[st.ind].label.toLowerCase()} para ${st.anio}. La serie empieza en ${IND[st.ind].min || 2004}.`;
+      $(id).appendChild(e);
+    });
   };
   dash.onData(redraw);
   try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redraw); } catch (e) {}
