@@ -50,7 +50,7 @@ body{background:var(--color-bg);color:var(--color-fg);font-family:var(--font-ant
 #dash-root .pm{max-width:84rem;margin-inline:auto;display:flex;flex-direction:column;gap:var(--cds-gap-lg);font-family:var(--font-anthropic-sans)}
 .pm b{font-weight:600;color:var(--color-fg)}
 .pm-head h1{margin:0;font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);line-height:1.2;text-wrap:balance}
-.pm-take{margin:var(--cds-gap-sm) 0 0;max-width:68ch;color:var(--color-fg-muted);font-size:var(--cds-font-size-body);line-height:1.55;font-variant-numeric:tabular-nums}
+.pm-take{margin:var(--cds-gap-sm) 0 0;max-width:none;text-align:justify;hyphens:auto;-webkit-hyphens:auto;color:var(--color-fg-muted);font-size:var(--cds-font-size-body);line-height:1.55;font-variant-numeric:tabular-nums}
 .pm-ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:var(--cds-gap-md) var(--cds-gap-lg);padding:var(--cds-pad-md) var(--cds-pad-lg);background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius)}
 .pm-year{display:flex;align-items:center;gap:var(--cds-gap-sm);flex:1 1 18rem;min-width:0}
 .pm-year label,.pm-ind-l{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);letter-spacing:.02em}
@@ -81,6 +81,11 @@ body{background:var(--color-bg);color:var(--color-fg);font-family:var(--font-ant
 .pm-chart text{font-family:var(--font-anthropic-sans);fill:var(--color-fg-muted);font-size:11px;font-variant-numeric:tabular-nums}
 .pm-chart .pm-strong{fill:var(--color-fg);font-weight:600}
 .pm-dep{cursor:pointer;transition:opacity .15s}
+.pm-labs{pointer-events:none}
+.pm-chart text.pm-lab{fill:var(--color-fg);font-weight:500;paint-order:stroke;stroke:var(--color-panel);stroke-width:2.6px;stroke-linejoin:round;letter-spacing:-.01em}
+.pm-chart text.pm-lab .v{font-weight:700}
+.pm-chart text.pm-lab.dim{opacity:.45}
+.pm-lead{stroke:var(--color-fg-muted);stroke-width:.7}
 .pm-dep:focus{outline:none}
 .pm-dep:focus-visible{stroke-width:2.5}
 .pm-legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs) var(--cds-gap-sm);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
@@ -174,7 +179,7 @@ td.pm-on,th.pm-on .pm-th{font-weight:600;color:var(--color-fg)}
   <div class="pm-grid">
     <section class="pm-card" id="mapa">
       <h2 id="pm-map-t">Mapa departamental</h2>
-      <p class="pm-note">Seis grupos de departamentos según el valor del indicador en el año elegido; el rojo más oscuro corresponde a la situación más grave. Pase el cursor para ver el detalle y haga clic para seguir su evolución.</p>
+      <p class="pm-note">Seis grupos de departamentos según el valor del indicador en el año elegido; el rojo más oscuro corresponde a la situación más grave. Cada departamento muestra su valor; pase el cursor para ver el detalle y haga clic para seguir su evolución.</p>
       <div class="pm-chart" id="pm-map" data-source="pobreza limites"></div>
       <div class="pm-legend" id="pm-legend" aria-label="Leyenda del mapa"></div>
     </section>
@@ -204,7 +209,7 @@ td.pm-on,th.pm-on .pm-th{font-weight:600;color:var(--color-fg)}
     </div>
   </section>
 
-  <p class="pm-foot" id="metodologia">Fuente: INEI, Encuesta Nacional de Hogares (ENAHO) 2004-2025, módulo 34 (Sumaria). Réplica propia con diseño muestral complejo (conglomerado y estrato) y ponderador factor07 × miembros del hogar. Pobreza monetaria: gasto per cápita inferior a la línea de pobreza; pobreza extrema: inferior al costo de la canasta básica de alimentos. Lima comprende Lima Metropolitana y Lima Provincias; Callao se presenta por separado. Brecha de la pobreza (P1) y severidad de la pobreza (P2): índices de Foster, Greer y Thorbecke; la brecha es el déficit promedio del gasto per cápita respecto de la línea de pobreza (cero para los no pobres) y la severidad, el promedio de ese déficit al cuadrado, que da más peso a los más pobres. Las cifras nacionales, por área y por dominio coinciden con las del INEI; el INEI no publica P1 ni P2 por departamento, por lo que estas son estimaciones propias. Calidad (criterio INEI): las estimaciones con CV mayor a 15% son referenciales. Personas en pobreza: tasa multiplicada por la población oficial estimada por el INEI al 30 de junio de cada año. Datos descargables: <a href="pobreza_monetaria_2004_2025.csv" download="pobreza_monetaria_2004_2025.csv">CSV</a>.</p>
+  <p class="pm-foot" id="metodologia">Fuente: INEI, Encuesta Nacional de Hogares (ENAHO) 2004-2025, módulo 34 (Sumaria). Réplica propia con diseño muestral complejo (conglomerado y estrato) y ponderador factor07 × miembros del hogar. Pobreza monetaria: gasto per cápita inferior a la línea de pobreza; pobreza extrema: inferior al costo de la canasta básica de alimentos. Lima comprende Lima Metropolitana y Lima Provincias; Callao se presenta por separado. Brecha de la pobreza (P1) y severidad de la pobreza (P2): índices de Foster, Greer y Thorbecke; la brecha es el déficit promedio del gasto per cápita respecto de la línea de pobreza (cero para los no pobres) y la severidad, el promedio de ese déficit al cuadrado, que da más peso a los más pobres. Las cifras nacionales, por área y por dominio coinciden con las del INEI; el INEI no publica P1 ni P2 por departamento, por lo que estas son estimaciones propias. Calidad (criterio INEI): las estimaciones con CV mayor a 15% son referenciales. Personas en pobreza: tasa multiplicada por la población oficial estimada por el INEI al 30 de junio de cada año.</p>
   <p class="pm-foot" id="creditos">Elaboración: <b>Good Guys Insight</b>.</p>
 </div>
 
@@ -410,7 +415,33 @@ dash.calc('personas_pobres', {
       if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
     }))));
     shapes.bounds = [x0, x1, y0, y1];
+    // punto de etiqueta: polo de inaccesibilidad aproximado del polígono mayor
+    const area = (ring) => Math.abs(d3.polygonArea(ring));
+    const segDist = (px, py, [ax, ay], [bx, by]) => {
+      const dx = bx - ax, dy = by - ay, l = dx * dx + dy * dy;
+      const t = l ? Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / l)) : 0;
+      return Math.hypot(px - ax - t * dx, py - ay - t * dy);
+    };
+    shapes.forEach((s) => {
+      const poly = s.polys.reduce((a, p) => (area(p[0]) > area(a[0]) ? p : a));
+      const ring = poly[0];
+      let [bx0, bx1, by0, by1] = [Infinity, -Infinity, Infinity, -Infinity];
+      ring.forEach(([x, y]) => { bx0 = Math.min(bx0, x); bx1 = Math.max(bx1, x); by0 = Math.min(by0, y); by1 = Math.max(by1, y); });
+      let best = d3.polygonCentroid(ring), bestD = -1;
+      const n = 36;
+      for (let i = 1; i < n; i++) for (let j = 1; j < n; j++) {
+        const px = bx0 + (bx1 - bx0) * i / n, py = by0 + (by1 - by0) * j / n;
+        if (!d3.polygonContains(ring, [px, py])) continue;
+        let d = Infinity;
+        for (let q = 0; q < ring.length - 1; q++) { const e = segDist(px, py, ring[q], ring[q + 1]); if (e < d) d = e; }
+        // ligera preferencia por el centro vertical para etiquetas de dos líneas
+        if (d > bestD) { bestD = d; best = [px, py]; }
+      }
+      s.lab = best;
+    });
   };
+  // Ajustes manuales (en píxeles del mapa) para departamentos pequeños o costeros
+  const LAB_OFF = { CALLAO: [-34, 4], TUMBES: [-26, -4], LAMBAYEQUE: [-6, 0], MOQUEGUA: [0, 2], TACNA: [4, 2] };
   const pathOf = (s, k, ox, oy) => s.polys.map((p) => p.map((ring) => 'M' + ring.map(([x, y]) => ((x - ox) * k).toFixed(1) + ',' + ((y - oy) * k).toFixed(1)).join('L') + 'Z').join('')).join('');
 
   // ---------- mapa ----------
@@ -448,6 +479,23 @@ dash.calc('personas_pobres', {
     // seleccionado al frente
     const selP = [...g.querySelectorAll('path')].find((p) => p.getAttribute('stroke-width') === '2.2');
     if (selP) g.appendChild(selP);
+    // etiquetas: nombre del departamento y valor del indicador
+    const fs = Math.max(7.5, Math.min(10.5, W / 48));
+    const gl = svgEl('g', { class: 'pm-labs', 'aria-hidden': 'true' }, g);
+    shapes.forEach((s) => {
+      const r = byName.get(s.nombdep);
+      if (!r || r[ind] == null) return;
+      const ax = (s.lab[0] - x0) * k, ay = (s.lab[1] - y0) * k;
+      const [dx, dy] = LAB_OFF[s.nombdep] || [0, 0];
+      const lx = ax + dx, ly = ay + dy;
+      if (dx || dy) {
+        if (Math.hypot(dx, dy) > 12) svgEl('line', { x1: ax, y1: ay, x2: lx + (dx < 0 ? 2 : -2), y2: ly - fs * .2, class: 'pm-lead' }, gl);
+      }
+      const anchor = dx < -12 ? 'end' : 'middle';
+      const t = svgEl('text', { x: lx, y: ly - fs * .15, 'text-anchor': anchor, class: 'pm-lab' + (dep && dep !== r.ambito ? ' dim' : ''), style: 'font-size:' + fs + 'px' }, gl);
+      const t1 = svgEl('tspan', { x: lx, dy: 0 }, t); t1.textContent = r.ambito;
+      const t2 = svgEl('tspan', { x: lx, dy: fs * 1.1, class: 'v' }, t); t2.textContent = f1(r[ind]) + '%';
+    });
     // leyenda
     const lg = $('pm-legend');
     lg.replaceChildren();
@@ -735,6 +783,20 @@ dash.calc('personas_pobres', {
       add(', ', mk(f1(Math.abs(v)) + ' pp', 'pobreza', I.v, where(anio, 'Nacional')), v < 0 ? ` menos que en ${anio - 1}` : v > 0 ? ` más que en ${anio - 1}` : ` igual que en ${anio - 1}`);
     }
     add('. ');
+    // indicadores FGT complementarios (P0, P1 y P2)
+    const prv = rows.find((r) => r.anio === anio - 1 && r.ambito === 'Nacional');
+    const OTROS = {
+      pob_total: [['La brecha de la pobreza', 'brecha_total'], ['la severidad', 'sev_total']],
+      pob_ext: [['La brecha de la pobreza extrema', 'brecha_ext'], ['su severidad', 'sev_ext']],
+      brecha_total: [['La incidencia de la pobreza', 'pob_total'], ['la severidad', 'sev_total']],
+      sev_total: [['La incidencia de la pobreza', 'pob_total'], ['la brecha', 'brecha_total']]
+    }[ind];
+    const parte = ([txt, f], i) => {
+      if (nat[f] == null) return;
+      add(i ? ' y ' + txt + ', de ' : txt + ' fue de ', mk(f1(nat[f]) + '%', 'pobreza', f, where(anio, 'Nacional')));
+      if (prv && prv[f] != null) add(' (' + fpp(Math.round((nat[f] - prv[f]) * 10) / 10) + ' pp)');
+    };
+    if (OTROS && nat[OTROS[0][1]] != null) { OTROS.forEach(parte); add('. '); }
     if (deps.length >= 4) {
       const [h1, h2] = deps, l1 = deps[deps.length - 1], l2 = deps[deps.length - 2];
       add(I.fgt ? 'Los mayores valores se registraron en ' : 'Las mayores tasas se registraron en ', h1.ambito, ' (', mk(f1(h1[ind]) + '%', 'pobreza', ind, where(anio, h1.ambito)), ') y ', h2.ambito, ' (', mk(f1(h2[ind]) + '%', 'pobreza', ind, where(anio, h2.ambito)), I.fgt ? '); los menores, en ' : '); las menores, en ', l1.ambito, ' (', mk(f1(l1[ind]) + '%', 'pobreza', ind, where(anio, l1.ambito)), ') y ', l2.ambito, ' (', mk(f1(l2[ind]) + '%', 'pobreza', ind, where(anio, l2.ambito)), ').');
