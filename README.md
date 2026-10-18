@@ -9,7 +9,7 @@ Tablero interactivo con la incidencia de la pobreza monetaria y de la pobreza ex
 | `index.html` | Tablero autocontenido: incluye los datos y los límites departamentales (funciona solo). |
 | `data/pobreza.js` | Resultados del do-file por año y ámbito (660 filas), copia de los datos incluidos en `index.html`. |
 | `data/limites.js` | Contornos simplificados de los 25 departamentos (INEI). |
-| `data/pobreza_monetaria_2004_2025.csv` | Los mismos resultados en CSV. |
+| `pobreza_monetaria_2004_2025.csv` | Los mismos resultados en CSV (enlace de descarga del tablero). |
 | `stata/pobreza_departamental_2004_2025.do` | Descarga, procesamiento y estimación en Stata. |
 
 ## Publicar en GitHub Pages
