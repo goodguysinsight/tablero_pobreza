@@ -6,8 +6,8 @@ Tablero interactivo con la incidencia de la pobreza monetaria y de la pobreza ex
 
 | Ruta | Descripción |
 |---|---|
-| `index.html` | Tablero (mapa coroplético, ranking con IC 95%, evolución 2004-2025 y tabla). |
-| `data/pobreza.js` | Resultados por año y ámbito (660 filas) que lee el tablero. |
+| `index.html` | Tablero autocontenido: incluye los datos y los límites departamentales (funciona solo). |
+| `data/pobreza.js` | Resultados del do-file por año y ámbito (660 filas), copia de los datos incluidos en `index.html`. |
 | `data/limites.js` | Contornos simplificados de los 25 departamentos (INEI). |
 | `data/pobreza_monetaria_2004_2025.csv` | Los mismos resultados en CSV. |
 | `stata/pobreza_departamental_2004_2025.do` | Descarga, procesamiento y estimación en Stata. |
@@ -23,7 +23,8 @@ El tablero también se abre localmente con doble clic en `index.html` (requiere 
 ## Actualizar los datos
 
 1. Ejecute `stata/pobreza_departamental_2004_2025.do` (agregue el código INEI del nuevo año en `local cAAAA`).
-2. Convierta la hoja `BD_larga` del Excel resultante a `data/pobreza.js` con el formato `window.PM_POBREZA = [ ... ];` (un objeto por fila, con los nombres de variable del `.dta`).
+2. Copie `cap0201.xlsx` (población oficial INEI al 30 de junio) en `inputs/`; el do-file la usa para calcular las personas en pobreza.
+3. Convierta la hoja `BD_larga` del Excel resultante al formato `window.PM_POBREZA = [ ... ];` (un objeto por fila, con los nombres de variable del `.dta`) y reemplace ese bloque dentro de `index.html`. El tablero no recalcula nada: toma tasas, intervalos, población oficial y personas en pobreza tal como salen de Stata.
 
 ## Metodología
 
